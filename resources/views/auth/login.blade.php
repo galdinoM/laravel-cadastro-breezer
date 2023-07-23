@@ -42,7 +42,7 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('register'))
-                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="#">
                     {{ __('Cadastra-se') }}
                 </a>
             @endif
@@ -56,9 +56,7 @@
         <script>
     $('#role').on('change', function(e) {
         e.preventDefault();
-
         const role = $('#role').val();
-
         if (role === 'admin') {
             $('#register-button').attr('href', "{{ route('cadastro-admin') }}");
         } else if (role === 'user') {
@@ -66,23 +64,34 @@
         }
     });
 
-    $('#role').on('change', function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
+        function updateRoleLinksAndEvents(role) {
+            if (role === 'admin') {
+                $('#register-button').attr('href', "{{ route('cadastro-admin') }}");
+            } else if (role === 'user') {
+                $('#register-button').attr('href', "{{ route('cadastro-user') }}");
+            }
 
-        const role = $('#role').val();
-        const loginButton = $('#login-button');
-
-        if (role === 'admin') {
-            loginButton.off('click'); // Desativa o evento de clique anterior
-            loginButton.on('click', function() {
-                $('#login-form').submit(); // Submete o formulário para autenticação
-            });
-        } else if (role === 'user') {
-            loginButton.off('click'); // Desativa o evento de clique anterior
-            loginButton.on('click', function() {
-                $('#login-form').submit(); // Submete o formulário para autenticação
+            const loginButton = $('#login-button');
+            loginButton.off('click').on('click', function(e) {
+                e.preventDefault();
+                if (role === 'admin') {
+                    $('#login-form').attr('action', "{{ route('cadastro-admin') }}");
+                } else if (role === 'user') {
+                    $('#login-form').attr('action', "{{ route('cadastro-user') }}");
+                }
+                $('#login-form').submit();
             });
         }
+
+        const initialRole = $('#role').val();
+        updateRoleLinksAndEvents(initialRole);
+
+        $('#role').on('change', function(e) {
+            e.preventDefault();
+            const role = $('#role').val();
+            updateRoleLinksAndEvents(role);
+        });
     });
 </script>
 

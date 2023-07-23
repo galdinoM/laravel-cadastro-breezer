@@ -21,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $role = 'user';
+        return view('auth.register-user', compact('role'));
     }
 
     /**
@@ -65,6 +66,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('dashboard-user');
     }
 }

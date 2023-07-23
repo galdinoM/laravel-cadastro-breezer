@@ -20,7 +20,8 @@ class RegisteredAdminController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $role = 'admin';
+        return view('auth.register', compact('role'));
     }
 
     /**
@@ -53,17 +54,19 @@ class RegisteredAdminController extends Controller
             'complemento' => $request->complemento,
             'uf' => $request->uf,
             'localidade' => $request->localidade,
-        ])->givePermissionTo('admin');
+        ]);
 
 
-        if (!$user->hasPermissionTo('admin')) {
+        if ($request->role === 'admin') {
             $user->givePermissionTo('admin');
+        } else {
+            $user->syncPermissions([]);
         }
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::guard('web')->login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('dashboard-admin');
     }
 }

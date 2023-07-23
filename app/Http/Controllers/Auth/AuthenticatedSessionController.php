@@ -70,9 +70,9 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::attempt($credentials)) {
             if (Auth::user()->role === 2) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('dasboard-admin');
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('dasboard--user');
             }
         } else {
             return redirect()->route('login')->with('error', 'Credenciais inválidas ou usuário não tem permissão de acesso.');

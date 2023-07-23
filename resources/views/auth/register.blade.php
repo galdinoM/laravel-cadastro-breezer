@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('cadastro-admin') }}" class="w-full max-w-lg mx-auto">
+    <form method="POST" class="w-full max-w-lg mx-auto">
         @csrf
 
         <!-- Nome -->
@@ -90,9 +90,26 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ml-4">
+            <x-primary-button class="ml-4" id="register-button">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#register-button').on('click', function(e) {
+                e.preventDefault();
+                const role = $('input[name="role"]').val();
+                $('form').submit();
+
+                if (role === 'user') {
+                    window.location.href = "{{ route('dashboard-user') }}";
+                } else if (role === 'admin') {
+                    window.location.href = "{{ route('dashboard-admin') }}";
+                }
+            });
+        });
+    </script>
 </x-guest-layout>
