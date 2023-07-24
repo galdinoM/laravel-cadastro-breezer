@@ -55,16 +55,18 @@ class RegisteredUserController extends Controller
             'complemento' => $request->complemento,
             'uf' => $request->uf,
             'localidade' => $request->localidade,
-        ])->givePermissionTo('user');
+        ]);
 
 
-        if (!$user->hasPermissionTo('user')) {
+        if ($request->role === 'user') {
             $user->givePermissionTo('user');
+        } else {
+            $user->syncPermissions([]);
         }
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::guard('web')->login($user);
 
         return redirect()->route('dashboard-user');
     }

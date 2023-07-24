@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @isset($form)
                     @if ($form === 'cadastro-admin')
                     @can('admin')
                         @if (isset($users) && count($users) > 0)
@@ -19,6 +20,7 @@
                         <p>Somente o administrador pode acessar.</p>
                     @endcan
                 @endif
+                @endisset
                 </div>
             </div>
         </div>

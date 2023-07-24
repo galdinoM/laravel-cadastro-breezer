@@ -1,12 +1,11 @@
-
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    <form method="POST" action="{{ route('login') }}">
+    <form id="login-form" method="POST" action="{{ route('login') }}">
         @csrf
 
         <div class="mt-4">
-            <x-input-label for="role" :value="__('Nivel de Acesso')" />
+            <x-input-label for="role" :value="__('Nível de Acesso')" />
             <select name="role" id="role" class="block mt-1 w-full" required>
                 <option value="user">Usuário</option>
                 <option value="admin">Administrador</option>
@@ -16,7 +15,7 @@
         <!-- Email -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input  id="email" class="block mt-1 w-full fadeIn second" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full fadeIn second" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -25,9 +24,9 @@
             <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                          type="password"
+                          name="password"
+                          required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -42,7 +41,7 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('register'))
-                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="#">
+                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
                     {{ __('Cadastra-se') }}
                 </a>
             @endif
@@ -52,8 +51,11 @@
             </x-primary-button>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script>
+    </form>
+</x-guest-layout>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
     $('#role').on('change', function(e) {
         e.preventDefault();
         const role = $('#role').val();
@@ -75,11 +77,6 @@
             const loginButton = $('#login-button');
             loginButton.off('click').on('click', function(e) {
                 e.preventDefault();
-                if (role === 'admin') {
-                    $('#login-form').attr('action', "{{ route('cadastro-admin') }}");
-                } else if (role === 'user') {
-                    $('#login-form').attr('action', "{{ route('cadastro-user') }}");
-                }
                 $('#login-form').submit();
             });
         }
@@ -94,6 +91,3 @@
         });
     });
 </script>
-
-    </form>
-</x-guest-layout>

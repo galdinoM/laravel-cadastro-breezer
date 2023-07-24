@@ -12,6 +12,6 @@ class DashboardUserController extends Controller
     {
         $form = url()->previous();
 
-        return view('dashboardUser', compact('form, role'));
+        return view('dashboardUser', compact('form'));
     }
 }

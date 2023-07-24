@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -40,7 +41,6 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
     }
 
     /**
@@ -61,18 +61,21 @@ class AuthenticatedSessionController extends Controller
      * Get the path the user should be redirected to when they are not authenticated.
      */
 
-    public function login(Request $request)
+     public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'role' => 'required|in:user,admin',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            if (Auth::user()->role === 2) {
-                return redirect()->route('dasboard-admin');
-            } else {
-                return redirect()->route('dasboard--user');
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+            $user = Auth::user();
+
+            if ($user->role === 'admin') {
+                return redirect()->route('dashboard-admin');
+            } else if ($user->role === 'user') {
+                return redirect()->route('dashboard-user');
             }
         } else {
             return redirect()->route('login')->with('error', 'Credenciais inválidas ou usuário não tem permissão de acesso.');

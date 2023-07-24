@@ -35,17 +35,19 @@ require __DIR__.'/auth.php';
 
 Route::get('/consulta-cep/{cep}', [CepController::class, 'consultaCep'])->name('consultaCep');
 
+#Cadastro e Dashboard de User
 Route::get('/cadastro-user', [RegisteredUserController::class, 'create'])->name('cadastro-user');
 Route::post('/cadastro-user', [RegisteredUserController::class, 'store']);
 
+Route::get('/dashboard-user', [DashboardUserController::class, 'index'])->name('dashboard-user');
+Route::post('/dashboard-user', [DashboardUserController::class, 'index'])->name('dashboard-user');
+
+#Cadastro e Dashboard de Admin
 Route::get('/cadastro-admin', [RegisteredAdminController::class, 'create'])->name('cadastro-admin');
-Route::post('/cadastro-admin', [RegisteredAdminController::class, 'store']);
+Route::post('/cadastro-admin', [RegisteredAdminController::class, 'store'])->name('dashboard-admin');
 
-Route::middleware(['auth', 'can:user'])->group(function () {
-    Route::get('/dashboard-user', [UserController::class, 'index'])->name('dashboard-user');
-});
-
-Route::middleware(['auth', 'can:admin'])->get('/dashboard/{from?}', [DashboardAdminController::class, 'index'])->name('dashboard');
+Route::get('/dashboard-admin', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
+Route::post('/dashboard-admin', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
 
 
 
