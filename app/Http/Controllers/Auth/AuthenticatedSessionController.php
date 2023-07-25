@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -61,24 +62,24 @@ class AuthenticatedSessionController extends Controller
      * Get the path the user should be redirected to when they are not authenticated.
      */
 
-     public function login(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required|in:user,admin',
         ]);
 
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
             $user = Auth::user();
 
-            if ($user->role === 'admin') {
+            if ($user->is_admin) {
                 return redirect()->route('dashboard-admin');
-            } else if ($user->role === 'user') {
+            } else {
                 return redirect()->route('dashboard-user');
             }
         } else {
-            return redirect()->route('login')->with('error', 'Credenciais inválidas ou usuário não tem permissão de acesso.');
+            return redirect()->route('login')->with('error', 'Invalid credentials or user does not have access permission.');
         }
     }
+
 }

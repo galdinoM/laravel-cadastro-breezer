@@ -56,11 +56,9 @@ class RegisteredAdminController extends Controller
             'localidade' => $request->localidade,
         ]);
 
-
-        if ($request->role === 'admin') {
+        if (!isset($request->role)) {
             $user->givePermissionTo('admin');
-        } else {
-            $user->syncPermissions([]);
+            $user->save();
         }
 
         event(new Registered($user));

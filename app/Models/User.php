@@ -54,4 +54,9 @@ class User extends Authenticatable implements AuthenticatableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\CepController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthenticatedLoginController;
+
 
 
 /*
@@ -35,12 +37,17 @@ require __DIR__.'/auth.php';
 
 Route::get('/consulta-cep/{cep}', [CepController::class, 'consultaCep'])->name('consultaCep');
 
+
+
 #Cadastro e Dashboard de User
 Route::get('/cadastro-user', [RegisteredUserController::class, 'create'])->name('cadastro-user');
 Route::post('/cadastro-user', [RegisteredUserController::class, 'store']);
 
 Route::get('/dashboard-user', [DashboardUserController::class, 'index'])->name('dashboard-user');
 Route::post('/dashboard-user', [DashboardUserController::class, 'index'])->name('dashboard-user');
+
+
+
 
 #Cadastro e Dashboard de Admin
 Route::get('/cadastro-admin', [RegisteredAdminController::class, 'create'])->name('cadastro-admin');
@@ -52,3 +59,13 @@ Route::post('/dashboard-admin', [DashboardAdminController::class, 'index'])->nam
 
 
 
+Route::get('/login', [AuthenticatedLoginController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedLoginController::class, 'store']);
+
+Route::get('/', function () {
+    return view('landing-page');
+})->name('landing');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');

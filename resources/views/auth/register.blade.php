@@ -85,8 +85,8 @@
 
         <!-- Register Button -->
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}"></a>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cadastro-admin') }}"></a>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cadastro-admin') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -99,17 +99,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#register-button').on('click', function(e) {
-                e.preventDefault();
-                const role = $('input[name="role"]').val();
-                $('form').submit();
-
-                if (role === 'user') {
-                    window.location.href = "{{ route('dashboard-user') }}";
-                } else if (role === 'admin') {
-                    window.location.href = "{{ route('dashboard-admin') }}";
-                }
-            });
+        $('#register-button').on('chenge', function(e) {
+            e.preventDefault();
+            $('form').submit();
         });
+
+        @if (request()->is('cadastro-admin') && auth()->check() && auth()->user() === 'admin')
+            window.location.href = "{{ route('dashboard-admin') }}";
+        @endif
+    });
     </script>
+
 </x-guest-layout>

@@ -1,16 +1,8 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    <form id="login-form" method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <div class="mt-4">
-            <x-input-label for="role" :value="__('Nível de Acesso')" />
-            <select name="role" id="role" class="block mt-1 w-full" required>
-                <option value="user">Usuário</option>
-                <option value="admin">Administrador</option>
-            </select>
-        </div>
+        <form id="login-form" method="POST" action="{{ route('login') }}" class="fadeIn">
+            @csrf
 
         <!-- Email -->
         <div>
@@ -55,39 +47,41 @@
 </x-guest-layout>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 <script>
-    $('#role').on('change', function(e) {
-        e.preventDefault();
-        const role = $('#role').val();
-        if (role === 'admin') {
-            $('#register-button').attr('href', "{{ route('cadastro-admin') }}");
-        } else if (role === 'user') {
-            $('#register-button').attr('href', "{{ route('cadastro-user') }}");
-        }
-    });
+     $(document).ready(function() {
+        $('#
 
     $(document).ready(function() {
-        function updateRoleLinksAndEvents(role) {
-            if (role === 'admin') {
-                $('#register-button').attr('href', "{{ route('cadastro-admin') }}");
-            } else if (role === 'user') {
-                $('#register-button').attr('href', "{{ route('cadastro-user') }}");
-            }
-
-            const loginButton = $('#login-button');
-            loginButton.off('click').on('click', function(e) {
-                e.preventDefault();
-                $('#login-form').submit();
-            });
-        }
-
-        const initialRole = $('#role').val();
-        updateRoleLinksAndEvents(initialRole);
-
-        $('#role').on('change', function(e) {
+        $('#register-button').on('click', function(e) {
             e.preventDefault();
-            const role = $('#role').val();
-            updateRoleLinksAndEvents(role);
+            const role = $('input[name="role"]').val();
+            $('form').submit();
         });
+
+        @php
+            $isAdmin = auth()->check() && auth()->user()->isAdmin();
+        @endphp
+
+        @if ($isAdmin)
+            window.location.href = "{{ route('dashboard-admin') }}";
+        @else
+            window.location.href = "{{ route('dashboard-user') }}";
+        @endif
     });
 </script>
+<style>
+    .fadeIn {
+        opacity: 0;
+        animation: fadeInAnimation 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeInAnimation {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+</style>

@@ -17,10 +17,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('cadastro', [RegisteredUserController::class, 'store']);
 
-    Route::get('/', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
 
-    Route::post('/', [AuthenticatedSessionController::class, 'store']);
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('recuperar-senha', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
