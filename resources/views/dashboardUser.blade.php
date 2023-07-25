@@ -10,16 +10,22 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     @isset($form)
-                    @if ($form === 'cadastro-user')
-                        @can('user')
-                            @if (isset($users) && count($users) > 0)
+                        @if ($form === 'cadastro-user')
+                            @can('user')
+                                @if (isset($users) && count($users) > 0)
+                                    <h3>Lista de Usuários:</h3>
+                                    <ul>
+                                        @foreach ($users as $user)
+                                            <li>{{ $user->name }} - {{ $user->email }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>Nenhum usuário encontrado.</p>
+                                @endif
                             @else
-                                <p>Nenhum usuário encontrado.</p>
-                            @endif
-                        @else
-                            <p>Somente o usuário pode acessar.</p>
-                        @endcan
-                    @endif
+                                <p>Somente o usuário pode acessar.</p>
+                            @endcan
+                        @endif
                     @endisset
                 </div>
             </div>

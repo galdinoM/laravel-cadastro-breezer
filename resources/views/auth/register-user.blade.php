@@ -100,17 +100,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#register-button').on('click', function(e) {
-                e.preventDefault();
-                const role = $('input[name="role"]').val();
-                $('form').submit();
-
-                if (role === 'user') {
-                    window.location.href = "{{ route('dashboard-user') }}";
-                } else if (role === 'admin') {
-                    window.location.href = "{{ route('dashboard-admin') }}";
-                }
-            });
+        $('#register-button').on('chenge', function(e) {
+            e.preventDefault();
+            $('form').submit();
         });
+
+        @if (request()->is('cadastro-user') && auth()->check() && auth()->user() === 'user')
+            window.location.href = "{{ route('dashboard-user') }}";
+        @endif
+    });
     </script>
 </x-guest-layout>

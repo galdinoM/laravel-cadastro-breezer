@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
 
@@ -70,9 +69,7 @@ class AuthenticatedSessionController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
-            $user = Auth::user();
-
-            if ($user->is_admin) {
+            if (Auth::user()->is_admin) {
                 return redirect()->route('dashboard-admin');
             } else {
                 return redirect()->route('dashboard-user');

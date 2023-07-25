@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedLoginController;
+use App\Http\Controllers\AdminUserController;
 
 
 
@@ -47,20 +48,20 @@ Route::get('/dashboard-user', [DashboardUserController::class, 'index'])->name('
 Route::post('/dashboard-user', [DashboardUserController::class, 'index'])->name('dashboard-user');
 
 
-
-
 #Cadastro e Dashboard de Admin
 Route::get('/cadastro-admin', [RegisteredAdminController::class, 'create'])->name('cadastro-admin');
 Route::post('/cadastro-admin', [RegisteredAdminController::class, 'store'])->name('dashboard-admin');
+
 
 Route::get('/dashboard-admin', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
 Route::post('/dashboard-admin', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
 
 
-
-
+#Tela de login
 Route::get('/login', [AuthenticatedLoginController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedLoginController::class, 'store']);
+
+
 
 Route::get('/', function () {
     return view('landing-page');
@@ -69,3 +70,8 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+
+Route::get('/dashboard-admin', [AdminUserController::class, 'index'])->name('dashboard-admin');
+
+Route::get('/users/{id}', [AdminUserController::class, 'show'])->name('admin.users.show');
