@@ -99,15 +99,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-        $('#register-button').on('chenge', function(e) {
-            e.preventDefault();
-            $('form').submit();
-        });
+            $('#register-user-button, #register-admin-button').on('click', function(e) {
+                e.preventDefault();
+                const role = $(this).data('role');
+                $('input[name="role"]').val(role);
+                $('form').submit();
+            });
 
-        @if (request()->is('cadastro-admin') && auth()->check() && auth()->user() === 'admin')
-            window.location.href = "{{ route('dashboard-admin') }}";
-        @endif
-    });
+            @if (request()->is('cadastro-user') && auth()->check() && auth()->user()->role === 'user')
+                window.location.href = "{{ route('dashboard-user') }}";
+            @elseif (request()->is('cadastro-admin') && auth()->check() && auth()->user()->role === 'admin')
+                window.location.href = "{{ route('dashboard-admin') }}";
+            @endif
+        });
     </script>
 
 </x-guest-layout>

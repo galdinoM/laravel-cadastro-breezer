@@ -49,25 +49,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <script>
-     $(document).ready(function() {
-        $('#
-
     $(document).ready(function() {
         $('#register-button').on('click', function(e) {
             e.preventDefault();
-            const role = $('input[name="role"]').val();
-            $('form').submit();
+            const role = 'user'; // Set the default role to 'user' for registration
+            window.location.href = $(this).attr('href');
         });
 
-        @php
-            $isAdmin = auth()->check() && auth()->user()->isAdmin();
-        @endphp
+        $('#login-button').on('click', function(e) {
+            e.preventDefault();
+            @php
+                $isAdmin = auth()->check() && auth()->user()->isAdmin();
+            @endphp
 
-        @if ($isAdmin)
-            window.location.href = "{{ route('dashboard-admin') }}";
-        @else
-            window.location.href = "{{ route('dashboard-user') }}";
-        @endif
+            @if ($isAdmin)
+                window.location.href = "{{ route('dashboard-admin') }}";
+            @else
+                window.location.href = "{{ route('dashboard-user') }}";
+            @endif
+        });
     });
 </script>
 <style>
