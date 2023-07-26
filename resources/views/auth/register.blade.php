@@ -85,8 +85,8 @@
 
         <!-- Register Button -->
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cadastro-admin') }}"></a>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cadastro-admin') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('dashboard-admin') }}"></a>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('dashboard-admin') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -99,19 +99,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#register-user-button, #register-admin-button').on('click', function(e) {
-                e.preventDefault();
-                const role = $(this).data('role');
-                $('input[name="role"]').val(role);
-                $('form').submit();
-            });
-
-            @if (request()->is('cadastro-user') && auth()->check() && auth()->user()->role === 'user')
-                window.location.href = "{{ route('dashboard-user') }}";
-            @elseif (request()->is('cadastro-admin') && auth()->check() && auth()->user()->role === 'admin')
-                window.location.href = "{{ route('dashboard-admin') }}";
-            @endif
+        $('#register-button').on('chenge', function(e) {
+            e.preventDefault();
+            $('form').submit();
         });
-    </script>
 
+        @if (request()->is('cadastro-admin') && auth()->check() && auth()->user() === 'admin')
+            window.location.href = "{{ route('dashboard-admin') }}";
+        @endif
+    });
+    </script>
 </x-guest-layout>

@@ -32,8 +32,8 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('register'))
-                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+            @if (Route::has('cadastro-user'))
+                <a id="register-button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('cadastro-user') }}">
                     {{ __('Cadastra-se') }}
                 </a>
             @endif
@@ -52,7 +52,7 @@
     $(document).ready(function() {
         $('#register-button').on('click', function(e) {
             e.preventDefault();
-            const role = 'user'; // Set the default role to 'user' for registration
+
             window.location.href = $(this).attr('href');
         });
 
